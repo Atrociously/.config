@@ -19,7 +19,7 @@ My common .config files across my linux installations.
 ```sh
 sudo xbps-install git
 git clone git@github.com:Atrociously/.config.git /home/$USER/.config
-sudo xbps-install -Sy neovim nushell zellij alacritty pipewire pipewire-pulse wireplumber xorg freefont-ttf socklog-void elogind spotifyd lightdm lightdm-gtk-greeter dmenu dex awesome
+sudo xbps-install -Sy neovim nushell zellij alacritty pipewire wireplumber xorg freefont-ttf socklog-void elogind spotifyd lightdm lightdm-gtk-greeter dmenu dex awesome
 sudo ln -s /etc/sv/dbus /var/service/
 sudo ln -s /etc/sv/dhcpcd /var/service/
 sudo ln -s /etc/sv/elogind /var/service/
