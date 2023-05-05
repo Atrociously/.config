@@ -1,0 +1,29 @@
+# Ignore everythig
+*
+
+# Except specified data
+# This helps protect from accidentally commiting sensitive information
+# by requiring explicitly allowing information
+# It also allows us to only add the specific files we want to maintain across
+# installations for instance certain applications specific to a distro will
+# have configuration files here but we don't care about them
+!.gitignore
+!README.md
+
+!alacritty
+!alacritty/*.yml
+
+!awesome
+!awesome/*.lua
+
+!nushell
+!nushell/*.nu
+
+!nvim
+!nvim/**/*
+
+!spotifyd
+!spotifyd/*.conf
+
+!zellij
+!zellij/*.kdl
