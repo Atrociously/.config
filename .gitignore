@@ -10,6 +10,9 @@
 !.gitignore
 !README.md
 
+!pipewire
+!pipewire/*.conf
+
 !alacritty
 !alacritty/*.yml
 
