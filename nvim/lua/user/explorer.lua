@@ -12,7 +12,8 @@ vim.api.nvim_create_autocmd("BufWinEnter", {
     desc = "Open neo-tree on enter",
     group = "neotree_open",
     callback = function()
-        if not vim.g.neotree_opened then
+        -- Open if the tree has not been opened and we ran the command with no arguments
+        if not vim.g.neotree_opened and vim.fn.argc() == 0 then
             vim.cmd("Neotree show")
             vim.g.neotree_opened = true
         end
