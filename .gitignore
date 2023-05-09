@@ -17,7 +17,7 @@
 !alacritty/*.yml
 
 !awesome
-!awesome/*.lua
+!awesome/**/*
 
 !nushell
 !nushell/*.nu
