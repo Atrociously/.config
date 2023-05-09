@@ -13,12 +13,13 @@ My common .config files across my linux installations.
      - `lightdm` will require a greeter like `lightdm-gtk-greeter`
    - Requres `dmenu` to run programs by searching for them
    - Requires `dex` to autostart programs in the `/etc/xdg/autostart/` directory
+   - Requires `FiraCode Nerd Font` for the font can be changed in the awesome config
 
 ### Distro specific commands
 #### Void
 ```sh
 sudo xbps-install git
-git clone git@github.com:Atrociously/.config.git /home/$USER/.config
+git clone git@github.com:Atrociously/.config.git $HOME/.config
 sudo xbps-install -Sy neovim nushell zellij alacritty pipewire wireplumber xorg freefont-ttf socklog-void elogind spotifyd lightdm lightdm-gtk-greeter dmenu dex awesome
 sudo ln -s /etc/sv/dbus /var/service/
 sudo ln -s /etc/sv/dhcpcd /var/service/
@@ -31,5 +32,7 @@ sudo ln -s /usr/share/applications/pipewire-pulse.desktop
 
 
 ## Other useful software
-- `flameshot`
-- `thunar`
+- `helvum` - A pipewire patchbay
+- `flameshot` - A screenshotting tool that stays in the tray
+- `thunar` - A file browser
+- `libreoffice` - A suite of office tools
