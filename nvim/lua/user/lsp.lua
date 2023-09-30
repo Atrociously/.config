@@ -74,6 +74,7 @@ mason_lspconfig.setup_handlers({
             server = {
                 on_attach = rust_attach,
                 standalone = false,
+
                 checkOnSave = {
                     command = "clippy"
                 }
@@ -92,3 +93,36 @@ mason_lspconfig.setup_handlers({
         })
     end
 })
+
+local setup_vhdl = function()
+    lspconfig.vhdl_ls.setup({
+        on_attach = on_attach,
+    })
+end
+
+-- Custom setup for vhdl because mason does not support it
+if vim.fn.executable('vhdl_ls') == 1 then
+    if vim.fn.isdirectory('/usr/lib/rust_hdl/vhdl_libraries') == 0 then
+        print("Warning: vhdl_ls is installed but vhdl_libraries are not detected run: sudo mkdir /usr/lib/rust_hdl ; sudo cp -r ~/.local/share/nvim/rust_hdl/vhdl_libraries /usr/lib/rust_hdl")
+    else
+        setup_vhdl()
+    end
+elseif vim.fn.executable('git') == 1 and vim.fn.executable('cargo') == 1 then
+    print("Warning: vhdl_ls is being installed for the first time you must run: sudo mkdir /usr/lib/rust_hdl ; sudo cp -r ~/.local/share/nvim/rust_hdl/vhdl_libraries /usr/lib/rust_hdl")
+    local on_cloned = function()
+        vim.fn.jobstart('cargo install --path ~/.local/share/nvim/rust_hdl/vhdl_ls', { on_exit = setup_vhdl });
+    end
+    vim.fn.jobstart('git clone https://github.com/VHDL-LS/rust_hdl.git ~/.local/share/nvim/rust_hdl', { on_exit = on_cloned });
+else
+    print("Warning: vhdl_ls and git or cargo not found on system path vhdl language support will not work")
+end
+
+local parser_config = require('nvim-treesitter.parsers').get_parser_configs()
+parser_config.stilts = {
+    install_info = {
+        url = "~/trunk/rust/stilts/tooling/tree-sitter-stilts",
+        files = {"src/parser.c"},
+        branch = "master"
+    },
+    filetype = "html"
+}
