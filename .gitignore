@@ -14,7 +14,7 @@
 !pipewire/*.conf
 
 !alacritty
-!alacritty/*.yml
+!alacritty/*
 
 !awesome
 !awesome/**/*

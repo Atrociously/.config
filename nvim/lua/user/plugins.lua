@@ -49,6 +49,12 @@ require("lazy").setup({
     "neovim/nvim-lspconfig",
     "williamboman/mason.nvim",
     "williamboman/mason-lspconfig.nvim",
+    {
+        "nvimdev/lspsaga.nvim",
+        after = "nvim-lspconfig",
+    },
+    -- Debug Tools
+    "mfussenegger/nvim-dap",
     -- Completions
     {
         "hrsh7th/nvim-cmp",
@@ -68,12 +74,10 @@ require("lazy").setup({
         "folke/lsp-trouble.nvim",
         dependencies = { "nvim-tree/nvim-web-devicons" }
     },
+    -- Language Specific Plugins
     {
-        "simrat39/rust-tools.nvim",
-        dependencies = {
-            "mfussenegger/nvim-dap",
-            "nvim-lua/plenary.nvim"
-        }
+        "NoahTheDuke/vim-just",
+        ft = { "just" },
     },
     {
         "iamcco/markdown-preview.nvim",

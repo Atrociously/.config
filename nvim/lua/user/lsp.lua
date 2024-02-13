@@ -47,9 +47,11 @@ lspconfig.util.default_config.capabilities = capabilities;
 local on_attach = function(_, bufnr)
     local keymap = vim.keymap.set
     local bufopts = { noremap = true, silent = true, buffer=bufnr }
-
-    keymap("n", "<leader>ca", vim.lsp.buf.code_action, bufopts)
-    keymap("n", "<leader>rr", vim.lsp.buf.rename, bufopts)
+    keymap({"n", "v"}, "<leader>ca", ":Lspsaga code_action<cr>", bufopts)
+    keymap("n", "<leader>rr", ":Lspsaga rename<cr>", bufopts)
+    keymap("n", "<leader>za", ":Lspsaga hover_doc<cr>", bufopts)
+    keymap("n", "<leader>gd", ":Lspsaga goto_definition<cr>", bufopts)
+    keymap("n", "<leader>gf", ":Lspsaga finder<cr>", bufopts)
 end
 
 mason_lspconfig.setup_handlers({
@@ -59,8 +61,37 @@ mason_lspconfig.setup_handlers({
             on_attach = on_attach,
         })
     end,
-    -- Specific setup for rust analyzer using rust-tools
+    ["jdtls"] = function()
+        local java_attach = function(client, bufnr)
+            on_attach(client, bufnr) -- Default setup
+        end
+
+        local mason_registry = require('mason-registry')
+        local javadebug_root = mason_registry.get_package("java-debug-adapter"):get_install_path() .. "/extension/"
+        local javadebug_path = javadebug_root .. "server/com.microsoft.java.debug.plugin-*.jar"
+        lspconfig.jdtls.setup({
+            on_attach = java_attach,
+            init_options = {
+                bundles = {
+                    vim.fn.glob(javadebug_path, 1)
+                }
+            },
+        })
+    end,
     ["rust_analyzer"] = function()
+        lspconfig.rust_analyzer.setup({
+            on_attach = on_attach,
+            settings = {
+                ["rust-analyzer"] = {
+                    checkOnSave = {
+                        command = "clippy"
+                    }
+                }
+            }
+        })
+    end
+    -- Specific setup for rust analyzer using rust-tools
+    --[[["rust_analyzer"] = function()
         local rt = require("rust-tools")
         local rust_attach = function(client, bufnr)
             on_attach(client, bufnr) -- Perform default actions
@@ -91,8 +122,11 @@ mason_lspconfig.setup_handlers({
                 },
             },
         })
-    end
+    end]]
 })
+
+local lspsaga = require('lspsaga')
+lspsaga.setup({})
 
 local setup_vhdl = function()
     lspconfig.vhdl_ls.setup({
@@ -116,13 +150,3 @@ elseif vim.fn.executable('git') == 1 and vim.fn.executable('cargo') == 1 then
 else
     print("Warning: vhdl_ls and git or cargo not found on system path vhdl language support will not work")
 end
-
-local parser_config = require('nvim-treesitter.parsers').get_parser_configs()
-parser_config.stilts = {
-    install_info = {
-        url = "~/trunk/rust/stilts/tooling/tree-sitter-stilts",
-        files = {"src/parser.c"},
-        branch = "master"
-    },
-    filetype = "html"
-}
