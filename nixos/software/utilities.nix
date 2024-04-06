@@ -1,0 +1,15 @@
+{
+  pkgs,
+  unstable,
+  ...
+}: {
+  environment.systemPackages = with pkgs; [
+    neofetch
+    btop
+    yazi
+    unstable.zellij
+    tmux
+    podman
+    buildah
+  ];
+}
