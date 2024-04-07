@@ -39,6 +39,9 @@
     173.24.209.40 ssh.atrocious.xyz
   '';
 
+  # Set allow unfree packages
+  nixpkgs.config.allowUnfree = true;
+
   # Only add core components here
   # stuff that could be considered an
   # essential component of a linux distro

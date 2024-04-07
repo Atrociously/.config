@@ -8,7 +8,6 @@
     btop
     yazi
     unstable.zellij
-    tmux
     podman
     buildah
   ];
