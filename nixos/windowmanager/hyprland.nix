@@ -1,4 +1,8 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  unstable,
+  ...
+}: {
   # Configure display manager (gdm) for wayland
   services.xserver = {
     enable = true;
@@ -13,6 +17,7 @@
   programs.hyprland = {
     enable = true;
     xwayland.enable = true;
+    enableNvidiaPatches = true;
   };
 
   # Set environment variables
@@ -32,6 +37,7 @@
 
   # Define packages useful for hyprland
   environment.systemPackages = with pkgs; [
+    unstable.hyprland
     brightnessctl
     wl-clipboard
     wev

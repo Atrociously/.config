@@ -41,6 +41,15 @@
           inherit userSettings;
         };
       };
+      invicta = lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [./configs/invicta/configuration.nix];
+        specialArgs = {
+          inherit pkgs;
+          inherit unstable;
+          inherit userSettings;
+        };
+      };
     };
   };
 }
