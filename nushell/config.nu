@@ -531,5 +531,3 @@ $env.config = {
     }
   ]
 }
-
-alias discord = /var/lib/flatpak/exports/bin/com.discordapp.Discord

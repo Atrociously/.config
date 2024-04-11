@@ -1,8 +1,36 @@
 local cmp = require('cmp')
+local ls = require('luasnip');
+
+local snip = ls.snippet
+local t = ls.text_node
+local insert = ls.insert_node
+local func = ls.function_node
+
+local html_tag_snippet = snip(
+    {
+        trig = "tag",
+        namr = "HtmlTag",
+        dscr = "An html element tag"
+    },
+    {
+        t({"<"}), insert(1), t({">"}),
+        insert(0, ""),
+        t({"</"}), func(function(args) return args[1][1] end, {1}), t({">"}),
+    }
+)
+
+ls.add_snippets("html", { html_tag_snippet })
+ls.add_snippets("htmldjango", { html_tag_snippet })
+
+ls.config.set_config({
+    history = true,
+    enable_autosnippets = true
+})
+
 cmp.setup({
     snippet = {
         expand = function(args)
-            require('luasnip').lsp_expand(args.body)
+            ls.lsp_expand(args.body)
         end,
     },
     mapping = {

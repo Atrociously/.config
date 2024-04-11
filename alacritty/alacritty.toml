@@ -1,2 +1,7 @@
+import = ["~/.config/alacritty/catppuccin-mocha.toml"]
+
+[font]
+normal.family = "FiraCode Nerd Font"
+
 [shell]
 program = "zellij"

@@ -17,12 +17,31 @@ local options = {
     relativenumber = true,
 
     -- Tabbing
-    expandtab = true,
-    shiftwidth = 4,
-    tabstop = 4,
+    -- The rest is now achieved with tabset
     smartindent = true,
 }
 
 for key, value in pairs(options) do
     vim.opt[key] = value
 end
+
+require('tabset').setup({
+    defaults = {
+        tabwidth = 4, -- Equavalent to shiftwidth & tabstop
+        expandtab = true,
+    },
+    languages = {
+        go = {
+            tabwidth = 4,
+            expandtab = false
+        },
+        yaml = {
+            tabwidth = 2,
+            expandtab = true
+        },
+        nix = {
+            tabwidth = 2,
+            expandtab = true,
+        }
+    }
+})

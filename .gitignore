@@ -30,3 +30,13 @@
 
 !zellij
 !zellij/*.kdl
+
+!hypr
+!hypr/hyprland.conf
+
+!eww
+!eww/**/*.yuck
+!eww/**/*.scss
+
+!nixos
+!nixos/**/*

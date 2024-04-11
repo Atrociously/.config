@@ -26,11 +26,13 @@ require("lazy").setup({
             "MunifTanjim/nui.nvim"
         }
     },
-    -- Tab / Buffer line
+    -- Buffer line
     {
         "akinsho/bufferline.nvim",
         dependencies = { "nvim-tree/nvim-web-devicons" }
     },
+    -- Change tab amount by filetype
+    'FotiadisM/tabset.nvim',
     -- Pairs
     "windwp/nvim-autopairs",
     {
@@ -47,8 +49,8 @@ require("lazy").setup({
     },
     -- Lsp Setup
     "neovim/nvim-lspconfig",
-    "williamboman/mason.nvim",
-    "williamboman/mason-lspconfig.nvim",
+    --"williamboman/mason.nvim",
+    --"williamboman/mason-lspconfig.nvim",
     {
         "nvimdev/lspsaga.nvim",
         after = "nvim-lspconfig",
@@ -65,6 +67,10 @@ require("lazy").setup({
             "hrsh7th/cmp-cmdline",
             "hrsh7th/nvim-cmp",
         }
+    },
+    {
+        "L3MON4D3/LuaSnip",
+        build = "make install_jsregexp"
     },
     {
         "saadparwaiz1/cmp_luasnip",

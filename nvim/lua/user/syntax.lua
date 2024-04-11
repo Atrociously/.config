@@ -19,6 +19,7 @@ require('nvim-treesitter.configs').setup {
         "make",
         "markdown",
         "markdown_inline",
+        "nickel",
         "nix",
         "regex",
         "rust",

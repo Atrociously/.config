@@ -7,8 +7,12 @@ keymap("n", "<leader>b[", "<cmd>bprevious<cr>", opts)
 keymap("n", "<leader>b]", "<cmd>bnext<cr>", opts)
 keymap("n", "<esc>", "", opts)
 
-keymap("n", "<C-n>", "<cmd>Neotree toggle<cr>", opts)
+keymap({"n", "i"}, "<C-n>", "<cmd>Neotree toggle<cr>", opts)
 keymap("n", "<leader>xx", "<cmd>TroubleToggle<cr>", opts)
+
+-- Snippet jump navigation
+--keymap({"i", "s"}, "<C-Right>", "<cmd>lua require'luasnip'.jump(1)<CR>", opts)
+--keymap({"i", "s"}, "<C-Left>", "<cmd>lua require'luasnip.jump(-1)<CR>", opts)
 
 setup_lsp_keys = function(bufnr)
     local bufopts = { noremap = true, silent = true, buffer=bufnr }

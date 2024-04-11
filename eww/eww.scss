@@ -1,0 +1,15 @@
+.background {
+    border-radius: 1em;
+}
+
+.volume-indicator {
+    position: relative;
+    :first-child {
+        position: absolute;
+        left: 20px;
+    }
+}
+
+.volume-scale {
+
+}

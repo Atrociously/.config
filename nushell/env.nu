@@ -27,11 +27,12 @@ def create_left_prompt [] {
 }
 
 def create_right_prompt [] {
-    let time_segment = ([
-        (date now | format date '%m/%d/%Y %r')
-    ] | str join)
+    #let time_segment = ([
+    #    (date now | format date "%Y-%m-%d %H:%M:%S")
+    #] | str join)
 
-    $time_segment
+    #$time_segment
+    ""
 }
 
 # Use nushell functions to define your right and left prompt
