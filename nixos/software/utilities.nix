@@ -8,7 +8,5 @@
     btop
     yazi
     unstable.zellij
-    podman
-    buildah
   ];
 }

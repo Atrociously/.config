@@ -1,13 +1,24 @@
-{unstable, ...}: {
-  environment.systemPackages = with unstable; [
-    rustc
-    rustfmt
-    cargo
+{
+  pkgs,
+  unstable,
+  fenix,
+  ...
+}: {
+  nixpkgs.overlays = [fenix.overlays.default];
+  environment.systemPackages = with pkgs; [
+    (fenix.stable.withComponents [
+      "cargo"
+      "clippy"
+      "rust-src"
+      "rustc"
+      "rustfmt"
+      "rust-analyzer"
+    ])
     cargo-expand
-    rust-analyzer
+    cargo-watch
     just
     gdb
     cgdb
-    mold
+    unstable.mold
   ];
 }

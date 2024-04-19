@@ -1,9 +1,9 @@
 {pkgs, ...}: {
   environment.systemPackages = with pkgs; [
-    libreoffice
-    okular
-    haruna
-    obs-studio
-    kdenlive
+    libreoffice # Office suite
+    okular # PDF Viewer
+    haruna # Video Player
+    obs-studio # Video Recorder
+    kdenlive # Video Editor
   ];
 }

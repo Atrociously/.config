@@ -1,8 +1,4 @@
-{
-  pkgs,
-  unstable,
-  ...
-}: {
+{pkgs, ...}: {
   # Configure display manager (gdm) for wayland
   services.xserver = {
     enable = true;
@@ -20,10 +16,9 @@
     enableNvidiaPatches = true;
   };
 
-  # Set environment variables
-  #environment.sessionVariables = {
-  #  WAYLAND_DISPLAY = "1"; # Some software uses this
-  #};
+  environment.variables = {
+    WLR_NO_HARDWARE_CURSORS = "1";
+  };
 
   # Enable xdg portal
   xdg.portal = {
@@ -31,13 +26,13 @@
     extraPortals = [
       pkgs.xdg-desktop-portal
       pkgs.xdg-desktop-portal-gtk
-      pkgs.xdg-desktop-portal-hyprland
+      #pkgs.xdg-desktop-portal-hyprland
     ];
   };
 
   # Define packages useful for hyprland
   environment.systemPackages = with pkgs; [
-    unstable.hyprland
+    wlr-randr
     brightnessctl
     wl-clipboard
     wev

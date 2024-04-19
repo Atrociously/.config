@@ -40,3 +40,5 @@
 
 !nixos
 !nixos/**/*
+
+!poly.nu

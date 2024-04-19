@@ -1,5 +1,6 @@
 # .config
 My common .config files across my linux installations.
+I've finally started using [nixos](https://wiki.nixos.org/wiki/NixOS_Wiki)
 
 ## New installation steps
 1. Install `neovim`

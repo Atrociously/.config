@@ -1,5 +1,6 @@
 {
   pkgs,
+  config,
   userSettings,
   ...
 }: {
@@ -10,17 +11,23 @@
     # Import the generated system hardware
     ./hardware-configuration.nix
     # Now import the configs we want for this setup
+    ../../hardware/opengl.nix
     ../../windowmanager/hyprland.nix
     ../../sound/pipewire.nix
+    ../../sound/noise_suppression.nix
     #../../hardware/bluetooth.nix
     #../../hardware/printing.nix
+    ../../devel/libraries.nix
     ../../devel/cplus.nix
     ../../devel/java.nix
     ../../devel/others.nix
     ../../devel/rust.nix
+    ../../software/virtualization/podman.nix
     ../../software/browsers/firefox.nix
     ../../software/editors/neovim.nix
     ../../software/terms/alacritty.nix
+    ../../software/music/spotify.nix
+    ../../software/comms/discord.nix
     ../../software/office.nix
     ../../software/utilities.nix
   ];
@@ -59,11 +66,21 @@
     man-pages-posix
   ];
 
+  # Fonts
   fonts.packages = with pkgs; [
-    fira-code
-    fira-code-symbols
-    (nerdfonts.override {fonts = ["FiraCode"];})
+    (nerdfonts.override {fonts = ["FiraCode" "JetBrainsMono"];})
   ];
+
+  # Nvidia config
+  services.xserver.videoDrivers = ["nvidia"];
+  hardware.nvidia = {
+    modesetting.enable = true;
+    powerManagement.enable = false;
+    powerManagement.finegrained = false;
+    open = false;
+    nvidiaSettings = true;
+    package = config.boot.kernelPackages.nvidiaPackages.stable;
+  };
 
   # Enable keyring
   security.pam.services.gdb.enableGnomeKeyring = true;

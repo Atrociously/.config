@@ -2,6 +2,11 @@
   description = "System configuration flake";
 
   inputs = {
+    fenix-pkgs = {
+      url = "github:nix-community/fenix";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
+
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-23.11";
     nixpkgs-unstable.url = "github:nixos/nixpkgs?ref=nixos-unstable";
   };
@@ -10,6 +15,7 @@
     self,
     nixpkgs,
     nixpkgs-unstable,
+    fenix-pkgs,
   }: let
     system = "x86_64-linux";
 
@@ -30,26 +36,25 @@
       email = "jackamorr@gmail.com";
       dotfilesDir = "~/config-git";
     };
+
+    fenix = fenix-pkgs.packages.${system};
+
+    config = name:
+      lib.nixosSystem {
+        system = system;
+        modules = [(./. + "/configs/${name}/configuration.nix")];
+        specialArgs = {
+          inherit pkgs;
+          inherit unstable;
+          inherit userSettings;
+          inherit fenix;
+        };
+      };
   in {
+    packages.${system}.default = fenix.stable.toolchain;
     nixosConfigurations = {
-      spectre = lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [./configs/spectre/configuration.nix];
-        specialArgs = {
-          inherit pkgs;
-          inherit unstable;
-          inherit userSettings;
-        };
-      };
-      invicta = lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [./configs/invicta/configuration.nix];
-        specialArgs = {
-          inherit pkgs;
-          inherit unstable;
-          inherit userSettings;
-        };
-      };
+      spectre = config "spectre";
+      invicta = config "invicta";
     };
   };
 }

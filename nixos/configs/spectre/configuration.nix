@@ -60,9 +60,7 @@
   ];
 
   fonts.packages = with pkgs; [
-    fira-code
-    fira-code-symbols
-    (nerdfonts.override {fonts = ["FiraCode"];})
+    (nerdfonts.override {fonts = ["FiraCode" "JetBrainsMono"];})
   ];
 
   # Enable keyring

@@ -5,23 +5,20 @@ let CLIP_CMD = "wl-copy"
 
 def find_nixos [] {
     ls $"/home/($env.USER)/**/*"
-        | filter {|f| $f.type == "dir" and ($f.name | str contains "nixos")}
+        | filter {|f| $f.type == "dir" and $f.name =~ "nixos"}
         | first
         | get name
         | path expand
 }
 
-def hash_directory [path: directory] {
-    ls $"($path)/**/*"
-        | filter {|f| $f.type == "file"}
-        | each {|f| open $f.name}
-        | md5sum
-}
-
 def find_nix_error [err: string] {
     let parsed = ($err | grep "at /nix/store"
         | str trim
+        | split row -r '\n'
+        | str trim
+        | last
         | parse "at /nix/store/{_}/nixos/{path}:{line}:{col}")
+    echo $parsed
     if ($parsed | is-empty) {
         null
     } else {
@@ -29,20 +26,21 @@ def find_nix_error [err: string] {
     }
 }
 
-def main [] {
+# Rebuild the nixos config
+def main [
+    --no-edit (-e) #
+] {
     let nixos_dir = find_nixos
     cd $nixos_dir
 
-    # Compute the hash of the config
-    # before editing
-    let pre_hash = hash_directory $nixos_dir
-
     # Open the config directory for editing
-    ^$"($EDITOR)" $nixos_dir
+    if not $no_edit {
+        ^$"($EDITOR)" $nixos_dir
+    }
     git add .
 
     # If none of the config files were changed abort
-    if $pre_hash == (hash_directory $nixos_dir) {
+    if (do -p {|| git diff --quiet HEAD ./*} | complete).exit_code == 0 {
         print "No changes made to config. Exiting..."
         exit 0;
     }
@@ -63,8 +61,9 @@ def main [] {
         let err = find_nix_error $res.stderr
         if $err != null and $EDITOR == "vim" {
             ^$"($EDITOR)" $"+($err.line)" $"($nixos_dir)/($err.path)"
+        } else {
+            ^$"($EDITOR)" $nixos_dir
         }
-        ^$"($EDITOR)" $nixos_dir
         git add .
         print "Checking flake..."
         $res = (do -p {nix flake check} | complete)
@@ -76,9 +75,6 @@ def main [] {
 
     # Show final changes compared to last commit
     git diff -U0 HEAD ./*
-
-    # Commit changes to git
-    git commit -m (input "Commit message: ")
 
     let apply = (input "Apply Changes? Y/n: ")
     if ($apply | str upcase) == "Y" {
