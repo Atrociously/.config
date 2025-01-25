@@ -1,0 +1,20 @@
+[[language]]
+name = "htmldjango"
+scope = "source.html"
+file-types = ["html", "htm"]
+indent = { tab-width = 2, unit = "  " }
+auto-format = false
+
+[[grammar]]
+name = "htmldjango"
+source = { git = "https://github.com/interdependence/tree-sitter-htmldjango", rev = "ea71012d3fe14dd0b69f36be4f96bdfe9155ebae" }
+
+#[[language]]
+#name = "stilts"
+#scope = "source.html"
+#injection-regex = "stilts"
+#file-types = ["html", "htm"]
+
+#[[grammar]]
+#name = "stilts"
+#source = { git = "https://github.com/Atrociously/stilts", rev = "f474080a582f81c679a3065968e2547868d99ba2", subpath = "tooling/tree-sitter-stilts" }

@@ -1,9 +1,8 @@
 {...}: {
   # Setup opengl to be enabled
   # this is for hardware acceleration
-  hardware.opengl = {
+  hardware.graphics = {
     enable = true;
-    driSupport = true;
-    driSupport32Bit = true;
+    enable32Bit = true;
   };
 }

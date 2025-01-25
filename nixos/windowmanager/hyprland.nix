@@ -1,8 +1,12 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  stable,
+  ...
+}: {
   # Configure display manager (gdm) for wayland
   services.xserver = {
     enable = true;
-    layout = "us";
+    xkb.layout = "us";
     displayManager.gdm = {
       enable = true;
       wayland = true;
@@ -11,13 +15,16 @@
 
   # Enable hyprland
   programs.hyprland = {
+    package = stable.hyprland;
     enable = true;
     xwayland.enable = true;
-    enableNvidiaPatches = true;
   };
 
   environment.variables = {
+    # Makes sure cursor is not invisible
     WLR_NO_HARDWARE_CURSORS = "1";
+    # Hint electron apps to use wayland
+    NIXOS_OZONE_WL = "1";
   };
 
   # Enable xdg portal
@@ -37,7 +44,7 @@
     wl-clipboard
     wev
     wofi
-    eww-wayland
+    eww
     swww
     hyprpicker
     grimblast

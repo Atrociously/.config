@@ -1,12 +1,11 @@
-{
-  pkgs,
-  unstable,
-  ...
-}: {
+{pkgs, ...}: {
   environment.systemPackages = with pkgs; [
     neofetch
     btop
     yazi
-    unstable.zellij
+    zellij
+    ripgrep
+    watchexec
+    qdirstat
   ];
 }

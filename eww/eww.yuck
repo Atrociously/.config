@@ -1,21 +1,35 @@
+(defpoll vol-visible 
+    :initial `eww windows | rg -c \\*volume-indicator`
+    :interval "1s"
+    `eww windows | rg -c \\*volume-indicator`)
+
+(defpoll vol
+    :initial `amixer sget Master | rg -Po '[0-9]*(?=%)'| head -1 | tr -d '\n'`
+    :interval "1ms"
+    :run-while {vol-visible > 0}
+    `amixer sget Master | rg -Po '[0-9]*(?=%)'| head -1 | tr -d '\n'`)
+
+(defwindow other
+    :monitor 0)
+
 (defwindow volume-indicator
     :monitor 0
     :geometry (geometry 
-        :x "0%"
-        :y "20%"
-        :width "8%"
-        :height "5%"
-        :anchor "bottom center")
+               :x "0%"
+               :y "20%"
+               :width "8%"
+               :height "5%"
+               :anchor "bottom center")
     :stacking "fg"
     :reserve (struts :distance "40px" :side "bottom")
     :windowtype "dock"
     :wm-ignore false
     (box
-        :space-evenly false
         ""
         (scale
             :class "volume-scale"
             :min 0
             :max 100
-            :value 50
-            :active false)))
+            :value {vol}
+            :active true
+            :onchange `amixer sset Master {}%`)))

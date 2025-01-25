@@ -1,8 +1,17 @@
+-- File Storage
+local file_store = os.getenv("HOME") .. "/.local/share/nvim/"
+
 -- Setup lombok support for java automatically
-local lombok = os.getenv("HOME") .. "/.local/share/nvim/lombok.jar"
+local lombok = file_store .. "lombok.jar"
 -- Check if lombok exists, if not then install it
 if vim.fn.file_readable(lombok) == 0 then
     vim.fn.jobstart("curl https://projectlombok.org/downloads/lombok.jar -o " .. lombok)
+end
+
+-- Build dictionary from spelling file
+local dictionary = {}
+for word in io.open(vim.fn.stdpath("config") .. "/spell/en.utf-8.add", "r"):lines() do
+    table.insert(dictionary, word)
 end
 
 local language_servers = {
@@ -28,6 +37,26 @@ local language_servers = {
     },
     "jsonnet_ls",
     {
+        "ltex",
+        cmd = {"ltex-ls"},
+        filetypes = { "latex", "tex", "bib", "markdown", "md", "typst", "typ" },
+        settings = {
+            ltex = {
+                enabled = { "latex", "tex", "bib", "markdown", "typst", "typ" },
+                language = "en",
+                diagnosticSeverity = "information",
+                additionalRules = {
+                    enablePickyRules = true,
+                    motherTongue = "en"
+                },
+                dictionary = {
+                    ["en-US"] = dictionary
+                },
+                trace = { server = "verbose" }
+            }
+        }
+    },
+    {
         "lua_ls",
         settings = {
             Lua = {
@@ -41,6 +70,11 @@ local language_servers = {
     "marksman",
     "nil_ls", -- nushell
     "ruff_lsp",
+    {
+        "rune_languageserver",
+        command = {"rune", "language-server"},
+        filetypes = { "rune", "rn" }
+    },
     {
         "rust_analyzer",
         settings = {

@@ -2,30 +2,22 @@
   description = "System configuration flake";
 
   inputs = {
-    fenix-pkgs = {
-      url = "github:nix-community/fenix";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
-    };
-
-    nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-23.11";
-    nixpkgs-unstable.url = "github:nixos/nixpkgs?ref=nixos-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
+    nixpkgs-stable.url = "github:nixos/nixpkgs?ref=nixos-24.05";
+    rose-pine-hyprcursor.url = "github:ndom91/rose-pine-hyprcursor";
   };
 
   outputs = {
     self,
     nixpkgs,
-    nixpkgs-unstable,
-    fenix-pkgs,
+    nixpkgs-stable,
+    rose-pine-hyprcursor,
   }: let
     system = "x86_64-linux";
 
     lib = nixpkgs.lib;
 
-    pkgs = import nixpkgs {
-      system = system;
-      config.allowUnfree = true;
-    };
-    unstable = import nixpkgs-unstable {
+    stable = import nixpkgs-stable {
       system = system;
       config.allowUnfree = true;
     };
@@ -37,21 +29,17 @@
       dotfilesDir = "~/config-git";
     };
 
-    fenix = fenix-pkgs.packages.${system};
-
     config = name:
       lib.nixosSystem {
         system = system;
         modules = [(./. + "/configs/${name}/configuration.nix")];
         specialArgs = {
-          inherit pkgs;
-          inherit unstable;
+          inherit stable;
           inherit userSettings;
-          inherit fenix;
+          inherit rose-pine-hyprcursor;
         };
       };
   in {
-    packages.${system}.default = fenix.stable.toolchain;
     nixosConfigurations = {
       spectre = config "spectre";
       invicta = config "invicta";
