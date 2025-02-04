@@ -59,8 +59,10 @@
     man-pages-posix
   ];
 
+  # Fonts
   fonts.packages = with pkgs; [
-    (nerdfonts.override {fonts = ["FiraCode" "JetBrainsMono"];})
+    nerd-fonts.fira-code
+    nerd-fonts.jetbrains-mono
   ];
 
   # Enable keyring

@@ -23,28 +23,28 @@
 
 (defwidget _network []
   (label :text {net == "" ? "󰣽" : 
-    net < 26 ? "󰣴" :
-      net < 51 ? "󰣶" :
-        net < 76 ? "󰣸" : "󰣺" }))
+                net < 26 ? "󰣴" :
+                net < 51 ? "󰣶" :
+                net < 76 ? "󰣸" : "󰣺"}))
 
 (defwidget _battery [battery status]
   (label :text {status == 'Discharging' ? 
-    battery < 15 ? "󰁺" :
-      battery < 25 ? "󰁻" :
-        battery < 35 ? "󰁼" :
-          battery < 45 ? "󰁽" :
-            battery < 55 ? "󰁾" :
-              battery < 65 ? "󰁿" :
+                battery < 15 ? "󰁺" :
+                battery < 25 ? "󰁻" :
+                battery < 35 ? "󰁼" :
+                battery < 45 ? "󰁽" :
+                battery < 55 ? "󰁾" :
+                battery < 65 ? "󰁿" :
                 battery < 75 ? "󰂀" :
                   battery < 85 ? "󰂁" :
                     battery < 95 ? "󰂂" : "󰁹"
-    : 
-    battery < 15 ? "󰢜" :
-      battery < 25 ? "󰂆" :
-        battery < 35 ? "󰂇" :
-          battery < 45 ? "󰂈" :
-            battery < 55 ? "󰢝" :
-              battery < 65 ? "󰂉" :
+                : 
+                battery < 15 ? "󰢜" :
+                battery < 25 ? "󰂆" :
+                battery < 35 ? "󰂇" :
+                battery < 45 ? "󰂈" :
+                battery < 55 ? "󰢝" :
+                battery < 65 ? "󰂉" :
                 battery < 75 ? "󰢞" :
                   battery < 85 ? "󰂊" :
                     battery < 95 ? "󰂋" : "󰂅"}))
@@ -52,8 +52,8 @@
 (defwidget _time [?spacing]
   (box :class "roundbox text-lg" :space-evenly false :spacing spacing
     (label :text {formattime(EWW_TIME, "%I:%M %p", "America/Chicago")})
-    (button :onclick "eww open calendar" ""))
-  )
+    (button :onclick "eww open calendar" "")))
+  
 
 (defwidget powermenu_layout []
   (box :space-evenly false
@@ -68,7 +68,7 @@
         (_network)
         (_battery :battery {EWW_BATTERY.BAT0.capacity}
                   :status {EWW_BATTERY.BAT0.status})
-        (button :onclick "eww close powermenu" "󰅖" )))
+        (button :onclick "eww close powermenu" "󰅖")))
     (box :valign "end"
          :space-evenly false
          :vexpand true
@@ -78,8 +78,8 @@
         (_pwr_buttons :shutdown "poweroff"
                       :reboot "reboot"
                       :logout "loginctl kill-session self"
-                      :spacing 25)))
-  ))
+                      :spacing 25)))))
+  
 
 (defwindow powermenu
   :class "powermenu"
@@ -99,8 +99,8 @@
 (defwidget bar []
   (centerbox :orientation "h"
     (workspaces)
-    (tray)
-    ))
+    (tray)))
+    
 
 (defwidget tray []
   (box :orientation "h" :halign "end"

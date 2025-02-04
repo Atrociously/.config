@@ -1,0 +1,14 @@
+
+theme = "catppuccin_mocha"
+
+[editor]
+line-number = "relative"
+
+[editor.cursor-shape]
+insert = "bar"
+
+[keys.normal]
+S-h = "move_prev_word_start"        # replace b bind
+S-l = "move_next_word_end"          # replace w bind
+S-A-h = "move_prev_long_word_start" # replace S-b bind
+S-A-l = "move_next_long_word_end"   # replace S-w bind

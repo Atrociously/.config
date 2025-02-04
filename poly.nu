@@ -47,7 +47,7 @@ def "main link" [] {
 
 # Find the location of this script in the user's home directory
 def find_poly_nu_dir [] {
-    ls $"/home/($env.USER)/**/*"
+    ls ...(glob $"/home/($env.USER)/**/poly.nu")
         | filter {|f| $f.type == "file" and ($f.name | str ends-with "poly.nu")}
         | first
         | get name

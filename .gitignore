@@ -4,7 +4,7 @@
 # Except specified data
 # This helps protect from accidentally commiting sensitive information
 # by requiring explicitly allowing information
-# It also allows us to only add the specific files we want to maintain across
+# It also allows me to only add the specific files we want to maintain across
 # installations for instance certain applications specific to a distro will
 # have configuration files here but we don't care about them
 !.gitignore
@@ -25,6 +25,11 @@
 !nvim
 !nvim/**/*
 
+!helix
+!helix/*
+!helix/runtime/queries
+!helix/runtime/queries/*
+
 !spotifyd
 !spotifyd/*.conf
 
@@ -37,6 +42,9 @@
 !eww
 !eww/**/*.yuck
 !eww/**/*.scss
+
+!BetterDiscord
+!BetterDiscord/**/*
 
 !nixos
 !nixos/**/*

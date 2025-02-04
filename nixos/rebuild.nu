@@ -4,11 +4,12 @@ let EDITOR = "vim"
 let CLIP_CMD = "wl-copy"
 
 def find_nixos [] {
-    ls $"/home/($env.USER)/**/*"
-        | filter {|f| $f.type == "dir" and $f.name =~ "nixos"}
+    ls ...(glob $"/home/($env.USER)/**/nixos/flake.nix")
+        | filter {|f| $f.type == "file"}
         | first
         | get name
         | path expand
+        | path dirname
 }
 
 def find_nix_error [err: string] {
@@ -31,6 +32,7 @@ def main [
     --no-edit (-e) #
 ] {
     let nixos_dir = find_nixos
+    print $nixos_dir
     cd $nixos_dir
 
     # Open the config directory for editing

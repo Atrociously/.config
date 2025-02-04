@@ -92,5 +92,10 @@ require("lazy").setup({
     {
         "kaarmu/typst.vim",
         ft = "typst",
+    },
+    -- Lisp / Scheme stuff
+    {
+        "eraserhd/parinfer-rust",
+        build = "cargo build --release"
     }
 })

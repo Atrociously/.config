@@ -1,24 +1,15 @@
 {pkgs, ...}: {
-  # Enable neovim and set as default editor
-  programs.neovim = {
-    enable = true;
-    defaultEditor = true;
-    vimAlias = true;
-  };
-
-  # Add important/required packages for editing
   environment.systemPackages = with pkgs; [
-    # Tools
-    tree-sitter
-    (python3.withPackages (ps: with ps; [pynvim]))
+    helix # The editor in question!
 
-    # LSPs for editing tips
-    ccls # C/C++ lsp
+    # Language servers
+    clang-tools # C lang tools including clangd
     dockerfile-language-server-nodejs # Dockerfile lsp
     gopls # Golang lsp
     htmx-lsp # HTMX lsp
     jdt-language-server # Java lsp
     jsonnet-language-server # JSON lsp
+    lldb_18 # includes lldb-dap for debugging
     ltex-ls # Latex Lsp
     lua-language-server # Lua lsp
     marksman # Markdown lsp
@@ -35,6 +26,6 @@
     typst-lsp # Typst lsp
     vhdl-ls # VHDL lsp
     vscode-langservers-extracted # HTML/CSS/JSON/ESLint lsps
-    yaml-language-server # YAML lsp
+    yaml-language-server # YAML lsp1
   ];
 }
