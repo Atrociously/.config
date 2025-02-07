@@ -1,35 +1,109 @@
-(defpoll vol-visible 
-    :initial `eww windows | rg -c \\*volume-indicator`
-    :interval "1s"
-    `eww windows | rg -c \\*volume-indicator`)
+(defpoll time :interval "5s"
+  :initial `date + '{"hour": "%H", "min": "%M"}'`
+  `date + '{"hour": "%H", "min": "%M"}'`)
 
-(defpoll vol
-    :initial `amixer sget Master | rg -Po '[0-9]*(?=%)'| head -1 | tr -d '\n'`
-    :interval "1ms"
-    :run-while {vol-visible > 0}
-    `amixer sget Master | rg -Po '[0-9]*(?=%)'| head -1 | tr -d '\n'`)
+(defpoll net :interval "100s"
+  :initial `nmcli -t -f SIGNAL,ACTIVE device wifi \
+    | awk -F':' '{if($2=="yes")print$1}'`
+  `nmcli -t -f SIGNAL,ACTIVE device wifi \
+    | awk -F':' '{if($2=="yes")print$1}'`)
 
-(defwindow other
-    :monitor 0)
+(defpoll volume :interval "10s"
+  `amixer -D pulse sget Master | awk -F '[^0-9]+' '/Left:/{print $3}'`)
 
-(defwindow volume-indicator
-    :monitor 0
-    :geometry (geometry 
-               :x "0%"
-               :y "20%"
-               :width "8%"
-               :height "5%"
-               :anchor "bottom center")
-    :stacking "fg"
-    :reserve (struts :distance "40px" :side "bottom")
-    :windowtype "dock"
-    :wm-ignore false
-    (box
-        ""
-        (scale
-            :class "volume-scale"
-            :min 0
-            :max 100
-            :value {vol}
-            :active true
-            :onchange `amixer sset Master {}%`)))
+(defwidget _pwr_buttons [shutdown reboot logout ?spacing]
+  (box :class "powermenu-btns"
+       :vexpand true :hexpand true
+       :valign "end" :halign "end"
+       :space-evenly false
+       :spacing spacing
+    (button :onclick shutdown "󰐥")
+    (button :onclick reboot "󰑓")
+    (button :onclick logout "󰍃")))
+
+(defwidget _network []
+  (label :text {net == "" ? "󰣽" : 
+                net < 26 ? "󰣴" :
+                net < 51 ? "󰣶" :
+                net < 76 ? "󰣸" : "󰣺"}))
+
+(defwidget _battery [battery status]
+  (label :text {status == 'Discharging' ? 
+                battery < 15 ? "󰁺" :
+                battery < 25 ? "󰁻" :
+                battery < 35 ? "󰁼" :
+                battery < 45 ? "󰁽" :
+                battery < 55 ? "󰁾" :
+                battery < 65 ? "󰁿" :
+                battery < 75 ? "󰂀" :
+                  battery < 85 ? "󰂁" :
+                    battery < 95 ? "󰂂" : "󰁹"
+                : 
+                battery < 15 ? "󰢜" :
+                battery < 25 ? "󰂆" :
+                battery < 35 ? "󰂇" :
+                battery < 45 ? "󰂈" :
+                battery < 55 ? "󰢝" :
+                battery < 65 ? "󰂉" :
+                battery < 75 ? "󰢞" :
+                  battery < 85 ? "󰂊" :
+                    battery < 95 ? "󰂋" : "󰂅"}))
+
+(defwidget _time [?spacing]
+  (box :class "roundbox text-lg" :space-evenly false :spacing spacing
+    (label :text {formattime(EWW_TIME, "%I:%M %p", "America/Chicago")})
+    (button :onclick "eww open calendar" "")))
+  
+
+(defwidget powermenu_layout []
+  (box :space-evenly false
+       :orientation "vertical"
+    (box :valign "start"
+         :space-evenly false
+      (_time :spacing 25)
+      (box :class "roundbox text-lg"
+           :halign "end"
+           :hexpand true
+           :spacing 25
+        (_network)
+        (_battery :battery {EWW_BATTERY.BAT0.capacity}
+                  :status {EWW_BATTERY.BAT0.status})
+        (button :onclick "eww close powermenu" "󰅖")))
+    (box :valign "end"
+         :space-evenly false
+         :vexpand true
+      (box :class "roundbox text-lg"
+           :halign "end"
+           :hexpand true
+        (_pwr_buttons :shutdown "poweroff"
+                      :reboot "reboot"
+                      :logout "loginctl kill-session self"
+                      :spacing 25)))))
+  
+
+(defwindow powermenu
+  :class "powermenu"
+  :monitor 0 ;; Optional for X11
+  :stacking "fg"
+  :windowtype "normal"
+  :wm-ignore true
+  :geometry (geometry
+              :width "100%"
+              :height "100%")
+  (powermenu_layout))
+
+(defwindow calendarmenu
+  :monitor 0
+  (calendar :class "calendar" :show-day-names true))
+
+(defwidget bar []
+  (centerbox :orientation "h"
+    (workspaces)
+    (tray)))
+    
+
+(defwidget tray []
+  (box :orientation "h" :halign "end"
+    (metric :label "🔊"
+            :value volume
+            :onchange "amixer -D pulse sset Master {}%")))

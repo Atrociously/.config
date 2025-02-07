@@ -1,15 +1,35 @@
-.background {
-    border-radius: 1em;
+@import "mocha";
+
+* { all: unset; }
+
+.powermenu {
+    background-color: transparent;
 }
 
-.volume-indicator {
-    position: relative;
-    :first-child {
-        position: absolute;
-        left: 20px;
-    }
+.powermenu > * {
+    margin: 2em;
 }
 
-.volume-scale {
+.roundbox {
+    color: $text;
+    background-color: $base;
+    border-radius: 10px;
+    padding: 0.5em;
+}
 
+.calendar {
+    background-color: $base;
+    border-radius: 10px;
+}
+
+.calendar:selected {
+    background: $pink;
+}
+
+.text-lg {
+    font-size: 2em;
+}
+
+button:hover {
+    color: $pink;
 }
