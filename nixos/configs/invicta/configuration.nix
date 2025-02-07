@@ -10,6 +10,7 @@
     # Import the generated system hardware
     ./hardware-configuration.nix
     # Now import the configs we want for this setup
+    ../../hardware/bluetooth.nix
     ../../hardware/opengl.nix
     ../../hardware/nvidiagpu.nix
     ../../windowmanager/hyprland.nix
@@ -26,6 +27,7 @@
     ../../devel/rust.nix
     ../../software/virtualization/podman.nix
     ../../software/browsers/firefox.nix
+    ../../software/browsers/qutebrowser.nix
     ../../software/editors/neovim.nix
     ../../software/editors/helix.nix
     ../../software/terms/alacritty.nix
@@ -34,6 +36,7 @@
     ../../software/office.nix
     ../../software/utilities.nix
     ../../software/content_creation/obs.nix
+    ../../software/content_creation/streaming.nix
     ../../software/content_creation/video_editor.nix
     ../../gaming/lutris.nix
     ../../gaming/minecraft.nix

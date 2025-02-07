@@ -23,7 +23,7 @@
     rust-analyzer # Rust lsp
     sqls # SQL lsp
     taplo # TOML lsp
-    typst-lsp # Typst lsp
+    tinymist # Typst lsp
     vhdl-ls # VHDL lsp
     vscode-langservers-extracted # HTML/CSS/JSON/ESLint lsps
     yaml-language-server # YAML lsp1

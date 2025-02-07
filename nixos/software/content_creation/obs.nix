@@ -14,6 +14,11 @@
     (pkgs.wrapOBS {
       plugins = with pkgs.obs-studio-plugins; [
         wlrobs
+        waveform
+        obs-tuna
+        obs-websocket
+        obs-webkitgtk
+        obs-text-pthread
         obs-backgroundremoval
         obs-pipewire-audio-capture
       ];

@@ -29,27 +29,27 @@ def find_nix_error [err: string] {
 
 # Rebuild the nixos config
 def main [
-    --no-edit (-e) #
+    --edit (-e) # Open default editor to fix the problem
 ] {
     let nixos_dir = find_nixos
     print $nixos_dir
     cd $nixos_dir
 
     # Open the config directory for editing
-    if not $no_edit {
+    if $edit {
         ^$"($EDITOR)" $nixos_dir
     }
     git add .
 
     # If none of the config files were changed abort
-    if (do -p {|| git diff --quiet HEAD ./*} | complete).exit_code == 0 {
+    if (do -i {|| git diff --quiet HEAD ./*} | complete).exit_code == 0 {
         print "No changes made to config. Exiting..."
         exit 0;
     }
 
     # Otherwise continue updating the active config
     print "Checking flake..."
-    mut res = (do -p {nix flake check} | complete)
+    mut res = (do -i {nix flake check} | complete)
 
     while $res.exit_code != 0 {
         print ($res.stderr)
@@ -68,7 +68,7 @@ def main [
         }
         git add .
         print "Checking flake..."
-        $res = (do -p {nix flake check} | complete)
+        $res = (do -i {nix flake check} | complete)
     }
 
     # Format all the nix files

@@ -1,7 +1,11 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  stable,
+  ...
+}: {
   environment.systemPackages = with pkgs; [
     libresprite
     ldtk
-    blender-hip
+    stable.blender-hip
   ];
 }
