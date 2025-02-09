@@ -9,6 +9,13 @@
   # Setup packages
   nixpkgs = {
     config.allowUnfree = true;
+    overlays = [
+      (final: prev: {
+        lldb_19 = prev.lldb_19.overrideAttrs {
+          dontCheckForBrokenSymlinks = true;
+        };
+      })
+    ];
   };
 
   # Bootloader

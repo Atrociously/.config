@@ -10,19 +10,36 @@
     # Import the generated system hardware
     ./hardware-configuration.nix
     # Now import the configs we want for this setup
-    ../../windowmanager/hyprland.nix
-    ../../sound/pipewire.nix
     ../../hardware/bluetooth.nix
     ../../hardware/printing.nix
+    ../../hardware/opengl.nix
+    ../../hardware/nvidiagpu.nix
+    ../../desktopmanager/plasma.nix
+    ../../sound/pipewire.nix
+    ../../sound/noise_suppression.nix
+    ../../devel/libraries.nix
     ../../devel/cplus.nix
+    ../../devel/gamedev.nix
     ../../devel/java.nix
     ../../devel/others.nix
+    ../../devel/python.nix
     ../../devel/rust.nix
+    ../../software/virtualization/podman.nix
     ../../software/browsers/firefox.nix
-    ../../software/editors/neovim.nix
+    #../../software/browsers/qutebrowser.nix
+    #../../software/editors/neovim.nix
+    ../../software/editors/helix.nix
     ../../software/terms/alacritty.nix
+    ../../software/music/spotify.nix
+    ../../software/comms/discord.nix
     ../../software/office.nix
     ../../software/utilities.nix
+    #../../software/content_creation/obs.nix
+    #../../software/content_creation/streaming.nix
+    #../../software/content_creation/video_editor.nix
+    #../../gaming/lutris.nix
+    #../../gaming/minecraft.nix
+    #../../gaming/steam.nix
   ];
 
   # Enable flakes
@@ -39,8 +56,13 @@
     173.24.209.40 ssh.atrocious.xyz
   '';
 
-  # Set allow unfree packages
-  nixpkgs.config.allowUnfree = true;
+  # Use grub to dual boot to windows
+  #boot.loader.systemd-boot.enable = false;
+  #boot.loader.grub = {
+  #  enable = true;
+  #  device = "nodev";
+  #  useOSProber = true;
+  #};
 
   # Only add core components here
   # stuff that could be considered an
@@ -48,6 +70,7 @@
   environment.systemPackages = with pkgs; [
     gcc
     clang
+    cmake
     git
     zip
     unzip
@@ -70,5 +93,5 @@
   services.gnome.gnome-keyring.enable = true;
 
   # This is specific to the time in which install first happened
-  system.stateVersion = "23.05";
+  system.stateVersion = "24.11";
 }

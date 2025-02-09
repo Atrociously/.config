@@ -9,7 +9,7 @@
     htmx-lsp # HTMX lsp
     jdt-language-server # Java lsp
     jsonnet-language-server # JSON lsp
-    lldb_18 # includes lldb-dap for debugging
+    lldb_19 # includes lldb-dap for debugging
     ltex-ls # Latex Lsp
     lua-language-server # Lua lsp
     marksman # Markdown lsp
